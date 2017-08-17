@@ -2,7 +2,7 @@
   "name": "ue-locks",
   "repository": {
     "type": "git",
-    "url": "https://gitlab.notamedia.ru/universal-editor/ue-locks"
+    "url": "https://gitlab.notamedia.ru/universal-editor/locker"
   },
   "scripts": {
     "dev": "webpack-dev-server --progress --colors",
