@@ -161,20 +161,20 @@ vm.ueConfig = {
 | timing | number |  Время в минутах, на которое блокируются компоненты. | \- | 15 |
 
 ## События, относящиеся к компоненту
-* ue-lock:lock – событие вызывается при блокировке;
-* ue-lock:unlock – событие вызвается при разблокировке.
+* ue-locks:lock – событие вызывается при блокировке;
+* ue-locks:unlock – событие вызвается при разблокировке.
 
 ``` javascript
-$scope.$on('ue-lock:lock', function(e, data) {
+$scope.$on('ue-locks:lock', function(e, data) {
     /**
-    data.component – компонент, в рамках которого происходит блокировка
+    data.component – модель компонента (объект), в рамках которого происходит блокировка
     data.entity – заблокированная сущность
     */
 }); 
 
-$scope.$on('ue-lock:unlock', function(e, data) {
+$scope.$on('ue-locks:unlock', function(e, data) {
     /**
-    data.component – компонент, в рамках которого происходит разблокировка
+    data.component – модель компонента (объект), в рамках которого происходит разблокировка
     data.entity – разблокированная сущность
     */
 }); 

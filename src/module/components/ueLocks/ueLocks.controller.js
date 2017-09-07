@@ -30,13 +30,14 @@
                     let component = vm.getParentComponent();
                     let comp = EditEntityStorage.getComponentBySetting(vm.options.$componentId);
                     vm.message = $translate.instant('LOCKS.BLOCKED');
-                    var timer;
+                    let timer;
+                    let components = getComponents(comp.setting);
                     lock();
                     function lock() {
                         ueLocksService.lock(comp, data).then(function(result) {
-                            var components = getComponents(comp.setting);
                             angular.forEach(components, function(component) {
                                 component = EditEntityStorage.getComponentBySetting(component);
+                                ueLocksService.registerComponent(vm.setting.component.$id, component);
                                 if (component && component.setting && component.setting.component.name !== 'ue-locks') {
                                     if (angular.isUndefined(vm.unLockComponents) && angular.isUndefined(vm.lockComponents)) {
                                         component.readonly = !result;
@@ -60,9 +61,13 @@
                             }
                         });
                     }
-
                     $scope.$on("$destroy", function() {
+                        angular.forEach(components, function(component) {
+                            ueLocksService.unRegisterComponent(vm.setting.component.$id, component);
+                        });
                         ueLocksService.unlock(comp, data);
+                        debugger;
+                        $timeout.cancel(timer);
                     });
 
                     $(window).unload(function() {

@@ -16,10 +16,14 @@
                 unlock: {
                     method: 'PUT',
                     url: 'http://universal-backend.dev/rest/v1/news/:id/unlock'
+                   // method: 'LOCK',
+                  //  url: 'http://universal-backend.dev/rest/v1/news/:id'
                 },
                 lock: {
                     method: 'PUT',
                     url: 'http://universal-backend.dev/rest/v1/news/:id/lock'
+                   // method: 'UNLOCK',
+                   // url: 'http://universal-backend.dev/rest/v1/news/:id'
                 }
             },
             primaryKey: 'id',
