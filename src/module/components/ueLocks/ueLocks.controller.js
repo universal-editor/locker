@@ -66,7 +66,6 @@
                             ueLocksService.unRegisterComponent(vm.setting.component.$id, component);
                         });
                         ueLocksService.unlock(comp, data);
-                        debugger;
                         $timeout.cancel(timer);
                     });
 
