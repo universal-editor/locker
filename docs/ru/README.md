@@ -11,14 +11,47 @@
  var newsDataSource = {
     standard: "YiiSoft",
     transport: {
-        url: "http://universal-backend.dev/rest/v1/news",
         unlock: {
-            method: "PUT",
-            url: "http://universal-backend.dev/rest/v1/news/:id/unlock"
+            method: 'UNLOCK',
+            url: 'http://universal-backend.dev/rest/v1/news/:id',
+            handlers: {
+                before: function(config) {
+                    console.log('Before unlock-handler');
+                    console.log(config);
+                },
+                success: function(response) {
+                    console.log('Success unlock-handler');
+                    console.log(response);
+                },
+                error: function(reject) {
+                    console.log('Reject unlock-handler');
+                    console.log(reject);
+                },
+                complete: function() {
+                    console.log('Complete unlock-handler');
+                }
+            }
         },
         lock: {
-            method: "PUT",
-            url: "http://universal-backend.dev/rest/v1/news/:id/lock"
+            method: 'LOCK',
+            url: 'http://universal-backend.dev/rest/v1/news/:id',
+            handlers: {
+                before: function(config) {
+                    console.log('Before lock-handler');
+                    console.log(config);
+                },
+                success: function(response) {
+                    console.log('Success lock-handler');
+                    console.log(response);
+                },
+                error: function(reject) {
+                    console.log('Reject lock-handler');
+                    console.log(reject);
+                },
+                complete: function() {
+                    console.log('Complete lock-handler');
+                }
+            }
         }
     },
     primaryKey: "id",
@@ -169,6 +202,7 @@ $scope.$on('ue-locks:lock', function(e, data) {
     /**
     data.component – модель компонента (объект), в рамках которого происходит блокировка
     data.entity – заблокированная сущность  (объект, который прислал сервер и в отношении которого производилась блокировка)
+    data.response – ответ от сервера, который был получен на запрос блокировки.
     */
 }); 
 
@@ -176,6 +210,7 @@ $scope.$on('ue-locks:unlock', function(e, data) {
     /**
     data.component – модель компонента (объект), в рамках которого происходит разблокировка
     data.entity – разблокированная сущность (объект, который прислал сервер и в отношении которого производилась разблокировка)
+    data.response – ответ от сервера, который был получен на запрос разблокировки.
     */
 }); 
 ```
