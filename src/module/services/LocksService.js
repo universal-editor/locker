@@ -8,23 +8,24 @@
     function ueLocksService($http, $q, configData, $rootScope, ApiService) {
         'ngInject';
 
-        var self = this,
-            lockedComponents = [],
-            lockerStorage = [];
+        var self = this;
+
+        self.lockedComponents = [];
+        self.lockerStorage = [];
 
         self.registerComponent = function(lockerId, component) {
-            lockerStorage[lockerId] = lockerStorage[lockerId] || [];
+            self.lockerStorage[lockerId] = self.lockerStorage[lockerId] || [];
             if (angular.isObject(component)) {
-                lockerStorage[lockerId].push(component);
+                self.lockerStorage[lockerId].push(component);
             }
         };
 
         self.unRegisterComponent = function(lockerId, component) {
-            lockerStorage[lockerId] = lockerStorage[lockerId] || [];
+            self.lockerStorage[lockerId] = self.lockerStorage[lockerId] || [];
             if (angular.isObject(component)) {
-                let i = lockerStorage[lockerId].indexOf(component);
+                let i = self.lockerStorage[lockerId].indexOf(component);
                 if (i !== -1) {
-                    lockerStorage[lockerId].splice(i, 1);
+                    self.lockerStorage[lockerId].splice(i, 1);
                 }
             }
         };
@@ -47,27 +48,45 @@
                 request: handlers,
                 $dataSource: DS
             };
-            $http(optionsHttp).then(function(response) {
-                $rootScope.$broadcast('ue-locks: unlock', { component: component, entity: entity });
-                if (lockedComponents.indexOf(component.setting.component.$id) === -1) {
-                    lockedComponents.push(component.setting.component.$id);
-                }
+            var before = true;
+            if (DS.transport && DS.transport.lock && DS.transport.lock.handlers && DS.transport.lock.handlers.before) {
+                before = DS.transport.lock.handlers.before(optionsHttp) !== false;
+            }
+            if (before) {
+                $http(optionsHttp).then(function(response) {
+                    try {
+                        DS.transport.lock.handlers.success(response);
+                    } catch (e) { }
+                    $rootScope.$broadcast('ue-locks: unlock', { component: component, entity: entity, response: response });
+
+                    if (self.lockedComponents.indexOf(component.setting.component.$id) === -1) {
+                        self.lockedComponents.push(component.setting.component.$id);
+                    }
+                    defer.resolve(true);
+                }, function(reject) {
+                    try {
+                        DS.transport.lock.handlers.error(response);
+                    } catch (e) { }
+                    $rootScope.$broadcast('ue-locks: lock', { component: component, entity: entity, reject: reject });
+                    if (reject.status === 423) {
+                        defer.resolve(false);
+                    }
+                    defer.resolve(null);
+                }).finally(function() {
+                    try {
+                        DS.transport.lock.handlers.complete();
+                    } catch (e) { }
+                });
+            } else {
                 defer.resolve(true);
-                //defer.resolve(false);
-            }, function(reject) {
-                $rootScope.$broadcast('ue-locks: lock', { component: component, entity: entity });
-                if (reject.status === 423) {
-                    defer.resolve(false);
-                }
-                defer.resolve(null);
-            });
+            }
             return defer.promise;
         };
 
         self.unlock = function(component, entity) {
-            var i = lockedComponents.indexOf(component.setting.component.$id);
+            var i = self.lockedComponents.indexOf(component.setting.component.$id);
             var defer = $q.defer();
-            if (i !== -1) {                
+            if (i !== -1) {
                 var DS = new DataSource(component.componentSettings.dataSource);
                 var service = ApiService.getCustomService(DS.standard);
                 ApiService.checkStandardParameter(DS.standard, service);
@@ -83,13 +102,32 @@
                     request: handlers,
                     $dataSource: DS
                 };
-                $http(optionsHttp).then(function(response) {
-                    $rootScope.$broadcast('ue-locks: unlock', { component: component, entity: entity });
-                    lockedComponents.splice(i, 1);
-                    defer.resolve(data);
-                }, function(reject) {
-                    defer.resolve(reject);
-                });
+
+                var before = true;
+                if (DS.transport && DS.transport.unlock && DS.transport.unlock.handlers && DS.transport.unlock.handlers.before) {
+                    before = DS.transport.unlock.handlers.before(optionsHttp) !== false;
+                }
+                if (before) {
+                    $http(optionsHttp).then(function(response) {
+                        try {
+                            DS.transport.unlock.handlers.success(response);
+                        } catch (e) { }
+                        $rootScope.$broadcast('ue-locks: unlock', { component: component, entity: entity, response: response });
+                        self.lockedComponents.splice(i, 1);
+                        defer.resolve(data);
+                    }, function(reject) {
+                        try {
+                            DS.transport.unlock.handlers.error(reject);
+                        } catch (e) { }
+                        defer.resolve(reject);
+                    }).finally(function() {
+                        try {
+                            DS.transport.unlock.handlers.complete();
+                        } catch (e) { }
+                    });
+                } else {
+                    defer.resolve(false);
+                }
             } else {
                 defer.resolve(false);
             }
