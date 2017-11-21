@@ -6,7 +6,6 @@
   },
   "scripts": {
     "dev": "webpack-dev-server --progress --colors",
-    "dist": "webpack-dev-server -p",
     "build": "webpack -p --progress --colors"
   },
   "keywords": [

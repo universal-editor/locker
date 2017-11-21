@@ -8,6 +8,9 @@
   function LocalizationMessage($translateProvider) {    
     'ngInject';
     var config = {
+      'RESPONSE_ERROR': {
+        'N423': 'Запись заблокирована.'
+      },
       'LOCKS': {
         'IMPOSSIBLE': 'Editing is impossible. Try later.',
         'BLOCKED': 'Record is blocked.',
