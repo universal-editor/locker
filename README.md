@@ -1,12 +1,11 @@
-# ue-locks component for "Universal Editor"
+# The locks component for "Universal Editor"
 
-Module for "Universal Editor" editor which extends the possibility of adding a component `ue-locks`.
+Module for "Universal Editor" which extends the possibility of adding a component `ue-locks`.
 
-## Installing extensions
+## Installing
 
 This extension is pulled like a bower dependence. For connecting the extension required to execute
 the following commands when you located in the root directory of the project:
-
 
 * Bower install https://github.com/universal-editor/locker --save -F
 * Required to make connecting javascript-file:
