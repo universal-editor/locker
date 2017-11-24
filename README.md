@@ -19,18 +19,18 @@ Connection module:
 
 For correct operation of the extensions editor requires a set of additional libraries that extend the functionality of AngularJS.
 A current list of libraries and their version is available in bower.json of the file repository ("section" dependencies). If
-extension connected via bower, then he will download the necessary libraries.
+extension connected via bower, then it will download the necessary libraries.
 
 ## Building
 
-Recommendation: running console with Administrator permissions. Address http://ue-locks.dev is including into host file and open in browser.
-If don't running console this way, have to enter http://ue-locks.dev in host file manually as new line like this
+Recommendation: run console with Administrator permissions this will include address http://ue-locks.dev into host file and open it in browser.
+If you don't run console this way, you may have to enter http://ue-locks.dev in host file manually at new line like this
 
 127.0.0.1 ue-locks.dev
 
 Install dependences:
 
-1. `npm install`
+1. `yarn install`
 1. `bower install`
 
 Run build:
