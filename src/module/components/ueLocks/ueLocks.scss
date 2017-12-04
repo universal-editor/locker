@@ -5,3 +5,6 @@
         }
     }
 }
+#toast-container .toast:not(:last-child) {
+    display: none;
+}

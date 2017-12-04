@@ -1,17 +1,26 @@
 (function() {
     'use strict';
-
     angular
         .module('demoApp')
         .controller('NewsGridController', NewsGridController);
 
-    function NewsGridController() {
+    function NewsGridController(toastr, $translate) {
         'ngInject';
         var vm = this;
         var newsDataSource = {
             standard: 'YiiSoft',
             transport: {
-                url: 'http://universal-backend.dev/rest/v1/news'
+                url: 'http://universal-backend.dev/rest/v1/news',
+                delete: {
+                    url: (item) => 'http://universal-backend.dev/rest/v1/news/[id]'.replace('[id]', item[newsDataSource.primaryKey]),
+                    handlers: {
+                        error: function(reject) {
+                            if (reject.status === 423) {
+                                toastr.error($translate.instant('RESPONSE_ERROR.N423'));
+                            }
+                        }
+                    }
+                }
             },
             sortBy: {
                 id: 'asc',
@@ -171,7 +180,7 @@
                                     label: 'Edit',
                                     sref: 'news_edit',
                                     useable: function(data) {
-                                       return true;
+                                        return true;
                                     }
                                 }
                             }

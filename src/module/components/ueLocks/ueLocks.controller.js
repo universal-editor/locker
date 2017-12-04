@@ -38,7 +38,7 @@
                         ueLocksService.lock(comp, data).then(function(result) {
                             deactivate(components, result);
                             timer = $timeout(lock, (componentSettings.timing || 15) * 60 * 1000);
-                            vm.isBlock = true;
+                            vm.isBlock = true;                            
                             if (result === null) {
                                 vm.message = $translate.instant('LOCKS.IMPOSSIBLE');
                                 toastr.error($translate.instant('RESPONSE_ERROR.UNDEFINED'));
