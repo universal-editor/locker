@@ -12,9 +12,14 @@
         'N423': 'Запись заблокирована.'
       },
       'LOCKS': {
-        'IMPOSSIBLE': 'Editing is impossible. Try later.',
-        'BLOCKED': 'Record is blocked.',
-        'EXCLUSION': 'Cannot be specified properties ue-lock::lockComponents and ue-lock::unLockComponents at one time.'
+        /** English version (TODO)
+          'IMPOSSIBLE': 'Editing is impossible. Try later.',
+          'BLOCKED': 'Record is blocked.',
+          'EXCLUSION': 'Cannot be specified properties ue-lock::lockComponents and ue-lock::unLockComponents at one time.'
+        */
+        'IMPOSSIBLE': 'Редактирование невозможно. Попробуйте позже.',
+        'BLOCKED': 'Запись заблокирована.',
+        'EXCLUSION': 'Не возможно одновременно указать настройки компонента ue-lock::lockComponents и ue-lock::unLockComponents.'
       }
     };
 
