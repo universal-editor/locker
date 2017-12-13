@@ -9,7 +9,7 @@
     'ngInject';
     var config = {
       'RESPONSE_ERROR': {
-        'N423': 'Запись заблокирована.'
+        'N423': 'Запись заблокирована другим пользователем.'
       },
       'LOCKS': {
         /** English version (TODO)
@@ -19,7 +19,7 @@
           'EXCLUSION': 'Cannot be specified properties ue-lock::lockComponents and ue-lock::unLockComponents at one time.'
         */
         'IMPOSSIBLE': 'Редактирование невозможно. Попробуйте позже.',
-        'BLOCKED': 'Запись заблокирована.',
+        'BLOCKED': 'Запись заблокирована другим пользователем.',
         'EXCLUSION': 'Невозможно одновременно указать настройки компонента ue-lock::lockComponents и ue-lock::unLockComponents.'
       }
     };
