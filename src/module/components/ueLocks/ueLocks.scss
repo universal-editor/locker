@@ -1,0 +1,10 @@
+.universal-editor {
+    .ue-lock-error {
+        .alert.alert-danger {
+            padding: 10px;
+        }
+    }
+}
+#toast-container .toast:not(:last-child) {
+    display: none;
+}

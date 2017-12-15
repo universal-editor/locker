@@ -1,0 +1,10 @@
+.field-wrapper.row(ng-class="{'regim-preview': vm.regim === 'preview'}" ng-if="vm.isBlock", ng-show='vm.useable')
+    .ue-component-body
+        .component-template(
+            on-render-template,
+            ng-class="{'component-filter': vm.templates.filter && vm.regim === 'filter',\
+                'component-edit': vm.templates.edit  && vm.regim === 'edit',\
+                'component-preview': vm.templates.preview && vm.regim === 'preview'}")
+        .component-edit(ng-if="!vm.templates.edit && vm.regim === 'edit'")
+            .ue-lock-error
+              .alert.alert-danger(ng-if="vm.message") {{vm.message}}
