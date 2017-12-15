@@ -1,5 +1,7 @@
 {
   "name": "ue-locks",
+  "description": "The locks component for 'Universal Editor'",
+  "version": "1.0.0-RC",
   "main": [
     "./dist/ue-locks.min.js"
   ],
